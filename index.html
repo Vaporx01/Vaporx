@@ -3,178 +3,709 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VAPORX - Жидкости</title>
+<title>VAPORX — Жидкости для вейпа</title>
 <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💨</text></svg>">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
-body { background: #0f0f14; color: #eee; min-height: 100vh; }
+html { scroll-behavior: smooth; }
+body {
+  background: #0a0a0f;
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(233,69,96,0.12), transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(0,224,164,0.08), transparent 45%);
+  background-attachment: fixed;
+  color: #eee;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== Шапка ===== */
 header {
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
-  padding: 20px 40px; display: flex; justify-content: space-between;
-  align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  position: sticky; top: 0; z-index: 100; border-bottom: 2px solid #e94560;
+  background: rgba(15,15,22,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(233,69,96,0.25);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
 }
 .logo {
-  font-size: 26px; font-weight: bold; color: #e94560;
-  cursor: pointer; user-select: none; display: flex;
-  align-items: center; gap: 12px; transition: 0.3s;
+  font-size: 26px;
+  font-weight: 900;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: 0.3s;
+  letter-spacing: 3px;
 }
-.logo:hover { opacity: 0.85; }
+.logo:hover { transform: scale(1.03); }
 .logo img {
-  height: 40px; width: 40px; object-fit: cover;
-  border-radius: 8px; background: #0f0f14;
+  height: 42px; width: 42px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #e94560;
+  box-shadow: 0 0 20px rgba(233,69,96,0.5);
 }
-.logo-text { color: #e94560; letter-spacing: 2px; }
+.logo-text {
+  background: linear-gradient(135deg, #e94560 0%, #ff5c77 50%, #ff8a9b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(233,69,96,0.4);
+}
 .header-actions { display: flex; gap: 10px; }
 .btn {
-  color: white; border: none; padding: 10px 20px;
-  border-radius: 8px; cursor: pointer; font-size: 16px; transition: 0.3s;
+  color: white;
+  border: none;
+  padding: 11px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-.cart-btn { background: #e94560; }
-.cart-btn:hover { background: #ff5c77; transform: scale(1.05); }
-.container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
-h2 { margin-bottom: 25px; color: #fff; border-left: 4px solid #e94560; padding-left: 12px; }
-.status {
-  padding: 12px 18px; background: #1a1a2e; border-radius: 8px;
-  margin-bottom: 20px; font-size: 14px; color: #999;
-  border-left: 3px solid #e94560;
+.cart-btn {
+  background: linear-gradient(135deg, #e94560, #c73550);
+  box-shadow: 0 4px 15px rgba(233,69,96,0.4);
 }
-.status.ok { border-left-color: #2ecc71; color: #2ecc71; }
-.status.err { border-left-color: #e74c3c; color: #e74c3c; }
- .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 22px; }
-.card {
-  background: #1a1a2e; border-radius: 14px; overflow: hidden;
-  transition: 0.3s; border: 1px solid #2a2a44;
-  display: flex; flex-direction: column; position: relative;
+.cart-btn:hover {
+  background: linear-gradient(135deg, #ff5c77, #e94560);
+  box-shadow: 0 6px 25px rgba(233,69,96,0.6);
+  transform: translateY(-2px);
 }
-.card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(233,69,96,0.3); border-color: #e94560; }
-.card-img {
-  height: 200px; display: flex; align-items: center; justify-content: center;
-  font-size: 70px; background: linear-gradient(135deg, #16213e, #0f3460);
+
+/* ===== Hero ===== */
+.hero {
+  text-align: center;
+  padding: 60px 20px 30px;
+  position: relative;
   overflow: hidden;
 }
-.card-img img { width: 100%; height: 100%; object-fit: cover; }
-.card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
-.card-title { font-size: 17px; margin-bottom: 6px; color: #fff; }
-.card-desc { font-size: 13px; color: #999; margin-bottom: 10px; }
-.card-price { font-size: 20px; color: #e94560; font-weight: bold; margin-bottom: 12px; }
-.add-btn {
-  background: #e94560; color: white; border: none; padding: 10px;
-  border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s;
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(233,69,96,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero h1 {
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 900;
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #fff 0%, #e94560 60%, #ff5c77 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  z-index: 1;
+}
+.hero p {
+  color: #8a8a99;
+  font-size: 17px;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(233,69,96,0.12);
+  border: 1px solid rgba(233,69,96,0.3);
+  color: #ff8a9b;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+/* ===== Контейнер ===== */
+.container { max-width: 1200px; margin: 0 auto; padding: 20px 20px 60px; }
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 25px;
+  font-size: 22px;
+  color: #fff;
+}
+.section-title::before {
+  content: '';
+  width: 4px; height: 24px;
+  background: linear-gradient(180deg, #e94560, #ff5c77);
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(233,69,96,0.6);
+}
+
+/* ===== Сетка товаров ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+}
+.card {
+  background: linear-gradient(160deg, #1a1a2e 0%, #16162a 100%);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+  border: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent, rgba(233,69,96,0.5), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: 0.35s;
+  pointer-events: none;
+}
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(233,69,96,0.25), 0 0 30px rgba(233,69,96,0.15);
+  border-color: rgba(233,69,96,0.4);
+}
+.card:hover::before { opacity: 1; }
+.card-img {
+  height: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+  overflow: hidden;
+  position: relative;
+}
+.card-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.4) 100%);
+  pointer-events: none;
+}
+.card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: 0.5s;
+}
+.card:hover .card-img img { transform: scale(1.08); }
+.card-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #fff;
+  line-height: 1.3;
+}
+.card-desc {
+  font-size: 12.5px;
+  color: #7d8291;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+.card-price {
+  font-size: 22px;
+  font-weight: 900;
+  margin-bottom: 14px;
+  background: linear-gradient(135deg, #e94560, #ff5c77);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-top: auto;
 }
-.add-btn:hover { background: #ff5c77; }
-.delete-btn {
-  position: absolute; top: 10px; right: 10px;
-  background: rgba(231,76,60,0.9); color: white; border: none;
-  width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
-  font-size: 16px; z-index: 10; transition: 0.2s;
+.card-price::after { content: ' MDL'; font-size: 13px; color: #7d8291; -webkit-text-fill-color: #7d8291; }
+.add-btn {
+  background: linear-gradient(135deg, #e94560, #c73550);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  transition: 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  letter-spacing: 0.3px;
 }
-.delete-btn:hover { background: #e74c3c; transform: scale(1.1); }
+.add-btn:hover {
+  background: linear-gradient(135deg, #ff5c77, #e94560);
+  box-shadow: 0 6px 20px rgba(233,69,96,0.5);
+  transform: translateY(-2px);
+}
+.add-btn:active { transform: translateY(0); }
+.delete-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: rgba(231,76,60,0.95);
+  color: white;
+  border: none;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 15px;
+  z-index: 10;
+  transition: 0.25s;
+  box-shadow: 0 4px 12px rgba(231,76,60,0.5);
+}
+.delete-btn:hover {
+  background: #e74c3c;
+  transform: scale(1.15) rotate(10deg);
+}
+
+/* ===== Пустое состояние ===== */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 80px 20px;
+  position: relative;
+}
+.empty-state-icon {
+  font-size: 90px;
+  margin-bottom: 20px;
+  display: inline-block;
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 30px rgba(233,69,96,0.4));
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+.empty-state h3 {
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.empty-state p {
+  color: #7d8291;
+  font-size: 15px;
+  max-width: 400px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+.empty-state-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(233,69,96,0.15);
+  border: 1px solid rgba(233,69,96,0.4);
+  color: #ff8a9b;
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.empty-state-btn:hover {
+  background: rgba(233,69,96,0.25);
+  transform: translateY(-2px);
+}
+
+/* ===== Скелетон загрузки ===== */
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+  width: 100%;
+}
+.skeleton {
+  background: linear-gradient(160deg, #1a1a2e, #16162a);
+  border-radius: 18px;
+  height: 360px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(233,69,96,0.08), transparent);
+  animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+  }
+/* ===== Корзина ===== */
 .cart-panel {
-  position: fixed; right: -420px; top: 0; width: 400px; height: 100%;
-  background: #1a1a2e; box-shadow: -5px 0 30px rgba(0,0,0,0.7);
-  transition: 0.4s; z-index: 200; display: flex; flex-direction: column;
-  border-left: 2px solid #e94560;
+  position: fixed;
+  right: -460px;
+  top: 0;
+  width: 420px;
+  height: 100%;
+  background: linear-gradient(180deg, #14141f 0%, #0f0f18 100%);
+  box-shadow: -10px 0 50px rgba(0,0,0,0.8);
+  transition: 0.4s cubic-bezier(0.4,0,0.2,1);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgba(233,69,96,0.3);
 }
 .cart-panel.open { right: 0; }
 .cart-header {
-  padding: 20px; background: #16213e; display: flex;
-  justify-content: space-between; align-items: center;
-  border-bottom: 1px solid #2a2a44;
+  padding: 22px 24px;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-.close-btn { background: none; border: none; color: #fff; font-size: 26px; cursor: pointer; }
-.cart-items { flex: 1; overflow-y: auto; padding: 15px; }
+.cart-header h3 { color: #fff; font-size: 20px; display: flex; align-items: center; gap: 10px; }
+.close-btn {
+  background: rgba(255,255,255,0.06);
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  transition: 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-btn:hover { background: rgba(233,69,96,0.3); transform: rotate(90deg); }
+.cart-items { flex: 1; overflow-y: auto; padding: 16px; }
+.cart-items::-webkit-scrollbar { width: 6px; }
+.cart-items::-webkit-scrollbar-track { background: transparent; }
+.cart-items::-webkit-scrollbar-thumb { background: rgba(233,69,96,0.4); border-radius: 3px; }
 .cart-item {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 12px; background: #0f0f14; border-radius: 8px; margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  transition: 0.25s;
 }
-.cart-item-info { font-size: 14px; }
-.cart-item-info small { color: #999; display: block; margin-top: 3px; }
-.remove-btn { background: #e94560; color: white; border: none; border-radius: 6px; padding: 6px 10px; cursor: pointer; }
-.cart-footer { padding: 20px; border-top: 1px solid #2a2a44; background: #16213e; }
-.total { font-size: 20px; margin-bottom: 15px; display: flex; justify-content: space-between; }
-.total span:last-child { color: #e94560; font-weight: bold; }
+.cart-item:hover { background: rgba(233,69,96,0.08); border-color: rgba(233,69,96,0.3); }
+.cart-item-info { font-size: 14px; color: #fff; font-weight: 600; flex: 1; }
+.cart-item-info small { color: #7d8291; display: block; margin-top: 4px; font-weight: 400; }
+.remove-btn {
+  background: rgba(233,69,96,0.15);
+  color: #ff8a9b;
+  border: 1px solid rgba(233,69,96,0.3);
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+.remove-btn:hover { background: #e94560; color: white; }
+.cart-footer {
+  padding: 22px 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(180deg, #16213e, #14141f);
+}
+.total {
+  font-size: 20px;
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #b5b9c4;
+}
+.total span:last-child {
+  background: linear-gradient(135deg, #e94560, #ff5c77);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
+  font-size: 24px;
+}
+.total span:last-child::after { content: ' MDL'; font-size: 14px; -webkit-text-fill-color: #7d8291; }
 .checkout-btn {
-  width: 100%; padding: 14px; background: #e94560; color: white;
-  border: none; border-radius: 8px; cursor: pointer; font-size: 16px; transition: 0.2s;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #e94560, #c73550);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  transition: 0.3s;
+  box-shadow: 0 8px 25px rgba(233,69,96,0.4);
 }
-.checkout-btn:hover { background: #ff5c77; }
-.checkout-btn:disabled { background: #444; cursor: not-allowed; }
-.empty { text-align: center; color: #666; padding: 40px 0; }
+.checkout-btn:hover {
+  background: linear-gradient(135deg, #ff5c77, #e94560);
+  box-shadow: 0 10px 35px rgba(233,69,96,0.6);
+  transform: translateY(-2px);
+}
+.checkout-btn:disabled { background: #444; cursor: not-allowed; box-shadow: none; transform: none; }
+.empty-cart {
+  text-align: center;
+  padding: 80px 20px;
+  color: #666;
+}
+.empty-cart-icon { font-size: 70px; opacity: 0.4; margin-bottom: 15px; display: block; }
+
+/* ===== Overlay ===== */
 .overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-  opacity: 0; pointer-events: none; transition: 0.3s; z-index: 150;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 150;
 }
 .overlay.show { opacity: 1; pointer-events: all; }
+
+/* ===== Модалки ===== */
 .modal {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-  display: none; align-items: center; justify-content: center;
-  z-index: 500; padding: 20px; overflow-y: auto;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  padding: 20px;
+  overflow-y: auto;
 }
-.modal.show { display: flex; }
+.modal.show { display: flex; animation: fadeIn 0.25s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .modal-box {
-  background: #1a1a2e; border-radius: 16px; padding: 30px;
-  width: 100%; max-width: 500px; border: 1px solid #2a2a44;
-  max-height: 90vh; overflow-y: auto;
+  background: linear-gradient(160deg, #1a1a2e, #14141f);
+  border-radius: 20px;
+  padding: 32px;
+  width: 100%;
+  max-width: 520px;
+  border: 1px solid rgba(233,69,96,0.3);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(233,69,96,0.15);
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s cubic-bezier(0.4,0,0.2,1);
 }
-.modal-box h3 { color: #e94560; margin-bottom: 20px; font-size: 22px; }
-.form-group { margin-bottom: 16px; }
-.form-group label { display: block; margin-bottom: 6px; color: #b5b9c4; font-size: 14px; }
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.modal-box h3 {
+  margin-bottom: 22px;
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #e94560, #ff5c77);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.form-group { margin-bottom: 18px; }
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #b5b9c4;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
 .form-group input, .form-group textarea {
-  width: 100%; padding: 12px; background: #0f0f14; border: 1px solid #2a2a44;
-  border-radius: 8px; color: #fff; font-size: 15px; transition: 0.2s;
+  width: 100%;
+  padding: 13px 15px;
+  background: rgba(0,0,0,0.4);
+  border: 1.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 15px;
+  transition: 0.25s;
+  font-family: inherit;
 }
 .form-group input:focus, .form-group textarea:focus {
-  outline: none; border-color: #e94560;
+  outline: none;
+  border-color: #e94560;
+  background: rgba(233,69,96,0.05);
+  box-shadow: 0 0 0 4px rgba(233,69,96,0.15);
 }
-.form-group input[type="file"] { padding: 8px; }
-.form-actions { display: flex; gap: 10px; margin-top: 20px; }
+.form-group input[type="file"] {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.form-group input[type="file"]::file-selector-button {
+  background: rgba(233,69,96,0.2);
+  color: #ff8a9b;
+  border: 1px solid rgba(233,69,96,0.4);
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-right: 12px;
+  transition: 0.2s;
+}
+.form-group input[type="file"]::file-selector-button:hover {
+  background: rgba(233,69,96,0.35);
+}
+.form-actions { display: flex; gap: 12px; margin-top: 24px; }
 .form-actions button {
-  flex: 1; padding: 12px; border: none; border-radius: 8px;
-  cursor: pointer; font-size: 15px; font-weight: bold; transition: 0.2s;
+  flex: 1;
+  padding: 13px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  transition: 0.25s;
+  letter-spacing: 0.3px;
 }
-.btn-primary { background: #e94560; color: white; }
-.btn-primary:hover { background: #ff5c77; }
-.btn-primary:disabled { background: #444; cursor: not-allowed; }
-.btn-secondary { background: #3a3a5a; color: white; }
-.btn-secondary:hover { background: #4a4a6a; }
+.btn-primary {
+  background: linear-gradient(135deg, #e94560, #c73550);
+  color: white;
+  box-shadow: 0 6px 20px rgba(233,69,96,0.4);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #ff5c77, #e94560);
+  box-shadow: 0 8px 28px rgba(233,69,96,0.6);
+  transform: translateY(-2px);
+}
+.btn-primary:disabled { background: #444; cursor: not-allowed; box-shadow: none; transform: none; }
+.btn-secondary {
+  background: rgba(255,255,255,0.06);
+  color: #b5b9c4;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+/* ===== Табы ===== */
 .tabs {
-  display: flex; gap: 8px; margin-bottom: 20px;
-  border-bottom: 1px solid #2a2a44; padding-bottom: 10px;
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+  padding: 5px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
 }
 .tab {
-  padding: 8px 16px; background: none; border: none;
-  color: #999; cursor: pointer; font-size: 14px;
-  border-radius: 6px; transition: 0.2s;
+  flex: 1;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  color: #7d8291;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: 0.25s;
 }
-.tab.active { background: #e94560; color: white; }
-.tab:hover:not(.active) { background: #2a2a44; color: #fff; }
+.tab.active {
+  background: linear-gradient(135deg, #e94560, #c73550);
+  color: white;
+  box-shadow: 0 4px 15px rgba(233,69,96,0.4);
+}
+.tab:not(.active):hover { background: rgba(255,255,255,0.06); color: #fff; }
 .tab-content { display: none; }
-.tab-content.active { display: block; }
+.tab-content.active { display: block; animation: fadeIn 0.25s; }
+
+/* ===== Toast ===== */
 .toast {
-  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-  background: #e94560; color: white; padding: 14px 28px; border-radius: 10px;
-  transition: 0.3s; z-index: 999; opacity: 0; max-width: 90%;
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: linear-gradient(135deg, #e94560, #c73550);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+  z-index: 999;
+  opacity: 0;
+  max-width: 90%;
+  font-weight: 600;
+  box-shadow: 0 10px 40px rgba(233,69,96,0.5);
+  font-size: 14px;
 }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-.toast.success { background: #2ecc71; color: #0f0f14; }
-.toast.error { background: #e74c3c; }
-.loader { text-align: center; padding: 60px; color: #666; font-size: 16px; }
+.toast.success {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  box-shadow: 0 10px 40px rgba(46,204,113,0.5);
+  color: white;
+}
+.toast.error {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  box-shadow: 0 10px 40px rgba(231,76,60,0.5);
+}
+
+/* ===== Превью ===== */
 .preview-img {
-  width: 100%; max-height: 200px; object-fit: cover;
-  border-radius: 8px; margin-top: 10px; display: none;
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 12px;
+  display: none;
+  border: 1.5px solid rgba(233,69,96,0.3);
 }
 .logo-preview {
-  width: 80px; height: 80px; object-fit: cover;
-  border-radius: 10px; margin-top: 10px; display: none;
-  background: #0f0f14; border: 1px solid #2a2a44;
+  width: 90px; height: 90px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-top: 12px;
+  display: none;
+  background: #0f0f14;
+  border: 2px solid rgba(233,69,96,0.4);
+  box-shadow: 0 0 20px rgba(233,69,96,0.3);
 }
-@media (max-width: 500px) {
+
+/* ===== Футер ===== */
+footer {
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  color: #555;
+  font-size: 13px;
+  margin-top: 40px;
+}
+footer strong { color: #e94560; }
+
+/* ===== Адаптив ===== */
+@media (max-width: 600px) {
   .cart-panel { width: 100%; right: -100%; }
-  header { padding: 15px 20px; gap: 10px; }
-  .logo { font-size: 18px; }
-  .logo img { height: 32px; width: 32px; }
+  header { padding: 14px 18px; }
+  .logo { font-size: 20px; letter-spacing: 2px; }
+  .logo img { height: 34px; width: 34px; }
+  .btn { padding: 9px 16px; font-size: 14px; }
+  .hero { padding: 40px 20px 20px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+  .card-img { height: 150px; font-size: 60px; }
+  .card-body { padding: 14px; }
+  .card-title { font-size: 14px; }
+  .card-price { font-size: 18px; }
+  .add-btn { padding: 10px; font-size: 13px; }
+  .modal-box { padding: 22px; }
 }
 </style>
 </head>
@@ -189,23 +720,37 @@ h2 { margin-bottom: 25px; color: #fff; border-left: 4px solid #e94560; padding-l
   </div>
 </header>
 
+<div class="hero">
+  <div class="hero-badge">⚡ Более 500 вкусов</div>
+  <h1>Жидкости для вейпа</h1>
+  <p>Премиальные вкусы, POD-системы и аксессуары. Доставка по всей Молдове.</p>
+</div>
+
 <div class="container">
-  <h2>Жидкости для вейпа</h2>
-  <div class="status" id="status">Подключение к Firebase...</div>
+  <div class="section-title" id="sectionTitle">Каталог товаров</div>
   <div class="grid" id="products">
-    <div class="loader">⏳ Загрузка товаров...</div>
+    <div class="skeleton-grid">
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+    </div>
   </div>
 </div>
+
+<footer>
+  © 2025 <strong>VAPORX</strong> · Только для лиц старше 18 лет
+</footer>
 
 <div class="overlay" id="overlay" onclick="toggleCart()"></div>
 <div class="cart-panel" id="cartPanel">
   <div class="cart-header">
-    <h3>Корзина</h3>
+    <h3>🛒 Корзина</h3>
     <button class="close-btn" onclick="toggleCart()">×</button>
   </div>
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-footer">
-    <div class="total"><span>Итого:</span><span id="cartTotal">0 MDL</span></div>
+    <div class="total"><span>Итого:</span><span id="cartTotal">0</span></div>
     <button class="checkout-btn" id="checkoutBtn" onclick="checkout()">Оформить заказ</button>
   </div>
 </div>
@@ -250,7 +795,7 @@ h2 { margin-bottom: 25px; color: #fff; border-left: 4px solid #e94560; padding-l
       </div>
       <div class="form-actions">
         <button class="btn-secondary" onclick="closeModal('adminModal')">Закрыть</button>
-        <button class="btn-primary" id="saveBtn" onclick="saveProduct()">💾 Добавить товар</button>
+        <button class="btn-primary" id="saveBtn" onclick="saveProduct()">💾 Добавить</button>
       </div>
     </div>
     <div class="tab-content" id="tab-logo">
@@ -258,11 +803,11 @@ h2 { margin-bottom: 25px; color: #fff; border-left: 4px solid #e94560; padding-l
         <label>Логотип магазина (PNG, JPG)</label>
         <input type="file" id="logoFile" accept="image/*" onchange="previewLogo(event)">
         <img id="logoPreview" class="logo-preview">
-        <small style="color:#666;display:block;margin-top:6px;">Рекомендуется квадратное фото ~200×200px</small>
+        <small style="color:#666;display:block;margin-top:8px;font-size:12px;">Квадратное фото ~200×200px</small>
       </div>
       <div class="form-actions">
         <button class="btn-secondary" onclick="removeLogo()">🗑 Убрать</button>
-        <button class="btn-primary" id="saveLogoBtn" onclick="saveLogo()">💾 Сохранить логотип</button>
+        <button class="btn-primary" id="saveLogoBtn" onclick="saveLogo()">💾 Сохранить</button>
       </div>
     </div>
   </div>
@@ -309,12 +854,6 @@ document.getElementById('shopLogo').addEventListener('click', () => {
   logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 800);
 });
 
-function setStatus(text, type = '') {
-  const el = document.getElementById('status');
-  el.textContent = text;
-  el.className = 'status ' + type;
-}
-
 function compressImage(file, maxSize = 800, quality = 0.75) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -343,6 +882,7 @@ function compressImage(file, maxSize = 800, quality = 0.75) {
     reader.readAsDataURL(file);
   });
 }
+// ===== Логотип =====
 async function loadLogo() {
   try {
     const snap = await getDoc(doc(db, 'settings', 'logo'));
@@ -404,31 +944,42 @@ window.saveLogo = async function() {
   } catch (err) {
     showToast('❌ Ошибка: ' + err.message, 'error');
   } finally {
-    btn.disabled = false; btn.textContent = '💾 Сохранить логотип';
+    btn.disabled = false; btn.textContent = '💾 Сохранить';
   }
 };
 
+// ===== Товары =====
 async function loadProducts() {
   try {
-    setStatus('⏳ Загрузка товаров...');
     const snap = await getDocs(collection(db, 'products'));
     products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-
-    if (products.length === 0) {
-      setStatus('⚠️ Товаров нет. 3 раза кликни по логотипу VAPORX → введи пароль → добавь товар.', 'err');
-      document.getElementById('products').innerHTML = '<div class="loader">Товаров нет.</div>';
-      return;
-    }
-    setStatus(`✅ Загружено ${products.length} товаров`, 'ok');
     renderProducts();
   } catch (err) {
     console.error(err);
-    setStatus('❌ Ошибка: ' + err.message, 'err');
+    document.getElementById('products').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">⚠️</div>
+        <h3>Ошибка загрузки</h3>
+        <p>Не удалось подключиться к базе данных</p>
+      </div>
+    `;
   }
 }
 
 function renderProducts() {
   const grid = document.getElementById('products');
+
+  if (products.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">💨</div>
+        <h3>Скоро здесь появятся товары</h3>
+        <p>Мы готовим для вас лучшие вкусы. Заходите позже!</p>
+      </div>
+    `;
+    return;
+  }
+
   grid.innerHTML = products.map(p => `
     <div class="card">
       ${isAdmin ? `<button class="delete-btn" onclick="deleteProduct('${p.id}')" title="Удалить">🗑</button>` : ''}
@@ -437,14 +988,15 @@ function renderProducts() {
       </div>
       <div class="card-body">
         <div class="card-title">${p.name}</div>
-        <div class="card-desc">${p.desc || ''}</div>
-        <div class="card-price">${p.price} MDL</div>
-        <button class="add-btn" onclick="addToCart('${p.id}')">В корзину</button>
+        <div class="card-desc">${p.desc || 'Премиальная жидкость'}</div>
+        <div class="card-price">${p.price}</div>
+        <button class="add-btn" onclick="addToCart('${p.id}')">🛒 В корзину</button>
       </div>
     </div>
   `).join('');
 }
 
+// ===== Корзина =====
 window.addToCart = function(id) {
   const item = cart.find(i => i.id === id);
   if (item) item.qty++;
@@ -475,8 +1027,13 @@ function updateCount() {
 function renderCart() {
   const box = document.getElementById('cartItems');
   if (cart.length === 0) {
-    box.innerHTML = '<div class="empty">Корзина пуста</div>';
-    document.getElementById('cartTotal').textContent = '0 MDL';
+    box.innerHTML = `
+      <div class="empty-cart">
+        <span class="empty-cart-icon">🛒</span>
+        <p>Корзина пуста</p>
+      </div>
+    `;
+    document.getElementById('cartTotal').textContent = '0';
     return;
   }
   box.innerHTML = cart.map(i => `
@@ -489,7 +1046,7 @@ function renderCart() {
     </div>
   `).join('');
   const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  document.getElementById('cartTotal').textContent = total + ' MDL';
+  document.getElementById('cartTotal').textContent = total;
 }
 
 window.toggleCart = function() {
@@ -517,6 +1074,7 @@ window.checkout = async function() {
   }
 };
 
+// ===== Админка =====
 window.openAdmin = function() {
   if (isAdmin) {
     document.getElementById('adminModal').classList.add('show');
@@ -533,7 +1091,7 @@ window.checkPassword = function() {
     sessionStorage.setItem('isAdmin', '1');
     closeModal('loginModal');
     document.getElementById('adminPassword').value = '';
-    showToast('✅ Добро пожаловать, админ!', 'success');
+    showToast('✅ Добро пожаловать!', 'success');
     renderProducts();
     setTimeout(() => openAdmin(), 300);
   } else {
@@ -596,7 +1154,7 @@ window.saveProduct = async function() {
   } catch (err) {
     showToast('❌ Ошибка: ' + err.message, 'error');
   } finally {
-    btn.disabled = false; btn.textContent = '💾 Добавить товар';
+    btn.disabled = false; btn.textContent = '💾 Добавить';
   }
 };
 
@@ -626,4 +1184,4 @@ loadLogo();
 loadProducts();
 </script>
 </body>
-</html> 
+</html>  
