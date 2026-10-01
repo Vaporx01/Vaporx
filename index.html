@@ -84,10 +84,10 @@ header {
   transform: translateY(-2px);
 }
 
-/* ===== Hero ===== */
+/* ===== Hero + 3D ===== */
 .hero {
   text-align: center;
-  padding: 60px 20px 30px;
+  padding: 40px 20px 30px;
   position: relative;
   overflow: hidden;
 }
@@ -100,8 +100,24 @@ header {
   background: radial-gradient(circle, rgba(233,69,96,0.15) 0%, transparent 70%);
   pointer-events: none;
 }
+.hero-3d-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+.hero-text {
+  flex: 1;
+  min-width: 280px;
+  text-align: left;
+}
 .hero h1 {
-  font-size: clamp(32px, 6vw, 56px);
+  font-size: clamp(32px, 5vw, 52px);
   font-weight: 900;
   margin-bottom: 12px;
   letter-spacing: -1px;
@@ -109,16 +125,12 @@ header {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  position: relative;
-  z-index: 1;
 }
 .hero p {
   color: #8a8a99;
   font-size: 17px;
   max-width: 500px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
+  line-height: 1.5;
 }
 .hero-badge {
   display: inline-flex;
@@ -132,8 +144,34 @@ header {
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 16px;
+}
+#liquid3d {
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(233,69,96,0.15), transparent 70%);
   position: relative;
-  z-index: 1;
+  cursor: grab;
+  filter: drop-shadow(0 0 60px rgba(233,69,96,0.4));
+  flex-shrink: 0;
+}
+#liquid3d:active { cursor: grabbing; }
+#liquid3d canvas { border-radius: 50%; display: block; }
+.model-badge {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(233,69,96,0.15);
+  border: 1px solid rgba(233,69,96,0.3);
+  color: #ff8a9b;
+  padding: 4px 14px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
 }
 /* ===== Контейнер ===== */
 .container { max-width: 1200px; margin: 0 auto; padding: 20px 20px 60px; }
@@ -152,8 +190,6 @@ header {
   border-radius: 4px;
   box-shadow: 0 0 12px rgba(233,69,96,0.6);
 }
-
-/* ===== Сетка товаров ===== */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -252,7 +288,6 @@ header {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  letter-spacing: 0.3px;
 }
 .add-btn:hover {
   background: linear-gradient(135deg, #ff5c77, #e94560);
@@ -274,17 +309,13 @@ header {
   transition: 0.25s;
   box-shadow: 0 4px 12px rgba(231,76,60,0.5);
 }
-.delete-btn:hover {
-  background: #e74c3c;
-  transform: scale(1.15) rotate(10deg);
-}
+.delete-btn:hover { background: #e74c3c; transform: scale(1.15) rotate(10deg); }
 
 /* ===== Пустое состояние ===== */
 .empty-state {
   grid-column: 1 / -1;
   text-align: center;
   padding: 80px 20px;
-  position: relative;
 }
 .empty-state-icon {
   font-size: 90px;
@@ -307,29 +338,11 @@ header {
   color: #7d8291;
   font-size: 15px;
   max-width: 400px;
-  margin: 0 auto 24px;
+  margin: 0 auto;
   line-height: 1.6;
 }
-.empty-state-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(233,69,96,0.15);
-  border: 1px solid rgba(233,69,96,0.4);
-  color: #ff8a9b;
-  padding: 10px 22px;
-  border-radius: 50px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.25s;
-}
-.empty-state-btn:hover {
-  background: rgba(233,69,96,0.25);
-  transform: translateY(-2px);
-}
 
-/* ===== Скелетон загрузки ===== */
+/* ===== Скелетон ===== */
 .skeleton-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -464,11 +477,7 @@ header {
   transform: translateY(-2px);
 }
 .checkout-btn:disabled { background: #444; cursor: not-allowed; box-shadow: none; transform: none; }
-.empty-cart {
-  text-align: center;
-  padding: 80px 20px;
-  color: #666;
-}
+.empty-cart { text-align: center; padding: 80px 20px; color: #666; }
 .empty-cart-icon { font-size: 70px; opacity: 0.4; margin-bottom: 15px; display: block; }
 
 /* ===== Overlay ===== */
@@ -531,7 +540,6 @@ header {
   color: #b5b9c4;
   font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.3px;
 }
 .form-group input, .form-group textarea {
   width: 100%;
@@ -550,11 +558,7 @@ header {
   background: rgba(233,69,96,0.05);
   box-shadow: 0 0 0 4px rgba(233,69,96,0.15);
 }
-.form-group input[type="file"] {
-  padding: 10px;
-  cursor: pointer;
-  font-size: 13px;
-}
+.form-group input[type="file"] { padding: 10px; cursor: pointer; font-size: 13px; }
 .form-group input[type="file"]::file-selector-button {
   background: rgba(233,69,96,0.2);
   color: #ff8a9b;
@@ -564,11 +568,8 @@ header {
   cursor: pointer;
   font-weight: 600;
   margin-right: 12px;
-  transition: 0.2s;
 }
-.form-group input[type="file"]::file-selector-button:hover {
-  background: rgba(233,69,96,0.35);
-}
+.form-group input[type="file"]::file-selector-button:hover { background: rgba(233,69,96,0.35); }
 .form-actions { display: flex; gap: 12px; margin-top: 24px; }
 .form-actions button {
   flex: 1;
@@ -579,7 +580,6 @@ header {
   font-size: 15px;
   font-weight: 700;
   transition: 0.25s;
-  letter-spacing: 0.3px;
 }
 .btn-primary {
   background: linear-gradient(135deg, #e94560, #c73550);
@@ -640,7 +640,7 @@ header {
   color: white;
   padding: 14px 28px;
   border-radius: 12px;
-  transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+  transition: 0.35s;
   z-index: 999;
   opacity: 0;
   max-width: 90%;
@@ -649,15 +649,8 @@ header {
   font-size: 14px;
 }
 .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-.toast.success {
-  background: linear-gradient(135deg, #2ecc71, #27ae60);
-  box-shadow: 0 10px 40px rgba(46,204,113,0.5);
-  color: white;
-}
-.toast.error {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  box-shadow: 0 10px 40px rgba(231,76,60,0.5);
-}
+.toast.success { background: linear-gradient(135deg, #2ecc71, #27ae60); box-shadow: 0 10px 40px rgba(46,204,113,0.5); }
+.toast.error { background: linear-gradient(135deg, #e74c3c, #c0392b); box-shadow: 0 10px 40px rgba(231,76,60,0.5); }
 
 /* ===== Превью ===== */
 .preview-img {
@@ -692,13 +685,18 @@ footer {
 footer strong { color: #e94560; }
 
 /* ===== Адаптив ===== */
+@media (max-width: 700px) {
+  .hero-3d-wrapper { flex-direction: column-reverse; gap: 10px; }
+  .hero-text { text-align: center; }
+  .hero p { margin: 0 auto; }
+  #liquid3d { width: 260px; height: 260px; }
+}
 @media (max-width: 600px) {
   .cart-panel { width: 100%; right: -100%; }
   header { padding: 14px 18px; }
   .logo { font-size: 20px; letter-spacing: 2px; }
   .logo img { height: 34px; width: 34px; }
   .btn { padding: 9px 16px; font-size: 14px; }
-  .hero { padding: 40px 20px 20px; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
   .card-img { height: 150px; font-size: 60px; }
   .card-body { padding: 14px; }
@@ -721,9 +719,16 @@ footer strong { color: #e94560; }
 </header>
 
 <div class="hero">
-  <div class="hero-badge">⚡ Более 500 вкусов</div>
-  <h1>Жидкости для вейпа</h1>
-  <p>Премиальные вкусы, POD-системы и аксессуары. Доставка по всей Молдове.</p>
+  <div class="hero-3d-wrapper">
+    <div class="hero-text">
+      <div class="hero-badge">⚡ Более 500 вкусов</div>
+      <h1>Жидкости для вейпа</h1>
+      <p>Премиальные вкусы, POD-системы и аксессуары. Доставка по всей Молдове.</p>
+    </div>
+    <div id="liquid3d">
+      <div class="model-badge">🖱️ Покрути меня</div>
+    </div>
+  </div>
 </div>
 
 <div class="container">
@@ -741,7 +746,6 @@ footer strong { color: #e94560; }
 <footer>
   © 2025 <strong>VAPORX</strong> · Только для лиц старше 18 лет
 </footer>
-
 <div class="overlay" id="overlay" onclick="toggleCart()"></div>
 <div class="cart-panel" id="cartPanel">
   <div class="cart-header">
@@ -754,6 +758,7 @@ footer strong { color: #e94560; }
     <button class="checkout-btn" id="checkoutBtn" onclick="checkout()">Оформить заказ</button>
   </div>
 </div>
+
 <div class="modal" id="loginModal">
   <div class="modal-box">
     <h3>🔐 Вход в админку</h3>
@@ -814,13 +819,13 @@ footer strong { color: #e94560; }
 </div>
 
 <div class="toast" id="toast">Готово</div>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
   getFirestore, collection, getDocs, addDoc, deleteDoc, doc,
   serverTimestamp, getDoc, setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCQe2EbDu2fVV5fskFw1X90eH0MW_GjtM",
@@ -882,6 +887,227 @@ function compressImage(file, maxSize = 800, quality = 0.75) {
     reader.readAsDataURL(file);
   });
 }
+
+// ===== 3D МОДЕЛЬ ЖИДКОСТИ =====
+function initLiquid3D() {
+  const container = document.getElementById('liquid3d');
+  if (!container) return;
+
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+  camera.position.set(0, 1.5, 5);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(renderer.domElement);
+
+  const bottleGroup = new THREE.Group();
+
+  // Корпус
+  const bodyGeo = new THREE.CylinderGeometry(1, 1, 2.2, 32, 1, false);
+  const bodyMat = new THREE.MeshPhysicalMaterial({
+    color: 0xe94560, metalness: 0.1, roughness: 0.15,
+    transmission: 0.85, thickness: 0.8, transparent: true, opacity: 0.95,
+    clearcoat: 1, clearcoatRoughness: 0.1
+  });
+  bottleGroup.add(new THREE.Mesh(bodyGeo, bodyMat));
+
+  // Плечо
+  const shoulderGeo = new THREE.CylinderGeometry(0.55, 1, 0.5, 32);
+  const shoulder = new THREE.Mesh(shoulderGeo, bodyMat);
+  shoulder.position.y = 1.35;
+  bottleGroup.add(shoulder);
+
+  // Горлышко
+  const neckGeo = new THREE.CylinderGeometry(0.45, 0.55, 0.4, 32);
+  const neck = new THREE.Mesh(neckGeo, bodyMat);
+  neck.position.y = 1.8;
+  bottleGroup.add(neck);
+
+  // Крышка
+  const capGeo = new THREE.CylinderGeometry(0.5, 0.5, 0.35, 32);
+  const capMat = new THREE.MeshPhysicalMaterial({
+    color: 0x0f0f14, metalness: 0.6, roughness: 0.3, clearcoat: 1
+  });
+  const cap = new THREE.Mesh(capGeo, capMat);
+  cap.position.y = 2.17;
+  bottleGroup.add(cap);
+
+  // Кольцо
+  const ringGeo = new THREE.TorusGeometry(0.5, 0.05, 16, 32);
+  const ringMat = new THREE.MeshPhysicalMaterial({
+    color: 0x00e0a4, metalness: 0.9, roughness: 0.1,
+    emissive: 0x00e0a4, emissiveIntensity: 0.5
+  });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.position.y = 2.2;
+  ring.rotation.x = Math.PI / 2;
+  bottleGroup.add(ring);
+
+  // Жидкость
+  const liquidGeo = new THREE.CylinderGeometry(0.88, 0.88, 1.6, 32);
+  const liquidMat = new THREE.MeshPhysicalMaterial({
+    color: 0xff8a9b, metalness: 0.1, roughness: 0.05,
+    transmission: 0.9, thickness: 1, transparent: true, opacity: 0.9,
+    emissive: 0xe94560, emissiveIntensity: 0.3
+  });
+  const liquid = new THREE.Mesh(liquidGeo, liquidMat);
+  liquid.position.y = -0.25;
+  bottleGroup.add(liquid);
+
+  // Пузырьки
+  const bubbles = [];
+  const bubbleMat = new THREE.MeshPhysicalMaterial({
+    color: 0xffffff, transparent: true, opacity: 0.6,
+    transmission: 1, roughness: 0, metalness: 0
+  });
+  for (let i = 0; i < 18; i++) {
+    const size = Math.random() * 0.08 + 0.04;
+    const bubbleGeo = new THREE.SphereGeometry(size, 16, 16);
+    const bubble = new THREE.Mesh(bubbleGeo, bubbleMat);
+    const angle = Math.random() * Math.PI * 2;
+    const radius = Math.random() * 0.6;
+    bubble.position.set(
+      Math.cos(angle) * radius,
+      -1 + Math.random() * 1.6,
+      Math.sin(angle) * radius
+    );
+    bubble.userData = {
+      speed: Math.random() * 0.01 + 0.005,
+      angle, radius
+    };
+    bottleGroup.add(bubble);
+    bubbles.push(bubble);
+  }
+
+  // Этикетка
+  const labelGeo = new THREE.CylinderGeometry(1.01, 1.01, 0.9, 32, 1, true);
+  const labelCanvas = document.createElement('canvas');
+  labelCanvas.width = 512;
+  labelCanvas.height = 256;
+  const ctx = labelCanvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 512, 256);
+  grad.addColorStop(0, '#0f0f14');
+  grad.addColorStop(1, '#1a1a2e');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 512, 256);
+  ctx.fillStyle = 'rgba(233,69,96,0.15)';
+  for (let i = 0; i < 512; i += 20) ctx.fillRect(i, 0, 2, 256);
+  ctx.fillStyle = '#e94560';
+  ctx.font = 'bold 70px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('VAPORX', 256, 110);
+  ctx.fillStyle = '#ff8a9b';
+  ctx.font = '600 24px Arial';
+  ctx.fillText('PREMIUM LIQUID', 256, 155);
+  ctx.fillStyle = '#00e0a4';
+  ctx.font = '18px Arial';
+  ctx.fillText('★ ★ ★ ★ ★', 256, 195);
+
+  const labelTexture = new THREE.CanvasTexture(labelCanvas);
+  labelTexture.anisotropy = 16;
+  const labelMat = new THREE.MeshPhysicalMaterial({
+    map: labelTexture, roughness: 0.4, metalness: 0.2, clearcoat: 1
+  });
+  const label = new THREE.Mesh(labelGeo, labelMat);
+  label.position.y = -0.2;
+  bottleGroup.add(label);
+
+  bottleGroup.position.y = -0.5;
+  scene.add(bottleGroup);
+
+  // Свет
+  const mainLight = new THREE.DirectionalLight(0xffffff, 1.5);
+  mainLight.position.set(5, 10, 7);
+  scene.add(mainLight);
+  const redLight = new THREE.PointLight(0xe94560, 3, 15);
+  redLight.position.set(-3, 2, 3);
+  scene.add(redLight);
+  const greenLight = new THREE.PointLight(0x00e0a4, 2, 15);
+  greenLight.position.set(3, -1, 2);
+  scene.add(greenLight);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+  const backLight = new THREE.PointLight(0xff5c77, 2, 12);
+  backLight.position.set(0, 1, -4);
+  scene.add(backLight);
+
+  // Управление
+  let isDragging = false;
+  let prevX = 0, prevY = 0;
+  let rotX = 0, rotY = 0;
+  let autoRotate = true;
+  const canvas = renderer.domElement;
+
+  canvas.addEventListener('mousedown', (e) => {
+    isDragging = true; autoRotate = false;
+    prevX = e.clientX; prevY = e.clientY;
+  });
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    setTimeout(() => { if (!isDragging) autoRotate = true; }, 2000);
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    rotY += (e.clientX - prevX) * 0.01;
+    rotX += (e.clientY - prevY) * 0.01;
+    rotX = Math.max(-0.5, Math.min(0.5, rotX));
+    prevX = e.clientX; prevY = e.clientY;
+  });
+  canvas.addEventListener('touchstart', (e) => {
+    isDragging = true; autoRotate = false;
+    prevX = e.touches[0].clientX; prevY = e.touches[0].clientY;
+  }, { passive: true });
+  canvas.addEventListener('touchend', () => {
+    isDragging = false;
+    setTimeout(() => { if (!isDragging) autoRotate = true; }, 2000);
+  });
+  canvas.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    rotY += (e.touches[0].clientX - prevX) * 0.01;
+    rotX += (e.touches[0].clientY - prevY) * 0.01;
+    rotX = Math.max(-0.5, Math.min(0.5, rotX));
+    prevX = e.touches[0].clientX; prevY = e.touches[0].clientY;
+  }, { passive: true });
+
+  // Анимация
+  const clock = new THREE.Clock();
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+    if (autoRotate) rotY += 0.005;
+    bottleGroup.rotation.y += (rotY - bottleGroup.rotation.y) * 0.1;
+    bottleGroup.rotation.x += (rotX - bottleGroup.rotation.x) * 0.1;
+    bottleGroup.position.y = -0.5 + Math.sin(t * 1.5) * 0.08;
+    redLight.intensity = 2.5 + Math.sin(t * 2) * 0.8;
+    greenLight.intensity = 1.8 + Math.cos(t * 1.5) * 0.6;
+    bubbles.forEach(b => {
+      b.position.y += b.userData.speed;
+      b.position.x = Math.cos(b.userData.angle + t) * b.userData.radius;
+      b.position.z = Math.sin(b.userData.angle + t) * b.userData.radius;
+      if (b.position.y > 0.6) {
+        b.position.y = -1;
+        b.userData.angle = Math.random() * Math.PI * 2;
+      }
+    });
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  });
+}
+
+setTimeout(initLiquid3D, 100);
 // ===== Логотип =====
 async function loadLogo() {
   try {
